@@ -16,7 +16,10 @@ const scraper = async (idTool, localisation, max_price, min_surface, equipments,
 
         const res = await fetch(`https://trouverunlogement.lescrous.fr/api/fr/search/${idTool}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Cookie': `PHPSESSID=${params.php_sess_id}; qpid=${params.qpid}; tool.${idTool}.hasUserReadRules=true`
+            },
             body: JSON.stringify(payload)
         });
 

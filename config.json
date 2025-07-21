@@ -1,0 +1,28 @@
+{
+    "idTool": 1,
+
+
+
+    "user": "example",
+    "user_email": "example@gmail.com",
+    "user_password": "iaip wwea yypm xznp",
+    "php_sess_id": "example",
+    "qpid": "example",
+
+
+
+    "localisation": [
+        { "lon": 1.0000000, "lat": 1.0000000 },
+        { "lon": 1.0000000, "lat": 1.0000000 }
+    ],
+    "prix_max": 10000000,
+    "surface_min": 0,
+    "type_occupation": ["alone"],
+    "equipements": ["WC", "Douche", "Frigo"],
+    "noms": [],
+
+
+
+    "delaie": 5,
+    "delaie_supp": 5
+}
