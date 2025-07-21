@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const params = require('../config.json');
 
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -15,45 +14,28 @@ const transporter = nodemailer.createTransport({
 
 
 
-const send_email = (total, apps, new_apps, last_len) => {
+const send_success_email = (app, infos) => {
     transporter.sendMail({
         from: params.user,
         to: params.user_email,
         subject: `Update Appartements CROUS`,
         html: `
-            <h1>Update Appartements CROUS</h1>
-            ${total === 0 ? `<p>Plus d'appartements disponible</p>` : `<p>${Math.abs(total - last_len)} ${total - last_len > 0 ? `Nouveau(x) appartement(s)` : `Appartement(s) en moins`} (maintenant : ${total}, anciennement : ${last_len})</p>`}
-            <br><hr><br>
+            <h1>Nouvelle appartement réservé CROUS</h1>
+            <br><br>
 
-            ${new_apps.length !== 0 ? `
-                <h3>Les nouveaux :</h3>
-                <br>
-                ${new_apps.map(item => `
-                    <p><strong>Nom : </strong><a>${item.name} <a style="color: red;">(NOUVEAU)</a></a></p>
-                    <p><strong>Adresse : </strong><a>${item.address}</a></p>
-                    <p><strong>Surface : </strong><a>${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</a></p>
-                    <p><strong>Prix : </strong><a>${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</a></p>
-                    <p><strong>Equipements : </strong><a>${item.equipements.join(', ')}</a></p>
-                    <p><strong>Lien : </strong><a href="${item.url}" target="_blank">${item.url}</a></p>
-                    <br><br>
-                `).join('')}
-                <br><hr><br></br>`
-            : ``}
+            <h3>Caractéristiques :</h3>
+            <br>
+            <p><strong>Nom : </strong><a>${app.name} <a style="color: red;">(NOUVEAU)</a></a></p>
+            <p><strong>Adresse : </strong><a>${app.address}</a></p>
+            <p><strong>Surface : </strong><a>${app.surface_min === app.surface_max ? `${app.surface_min}m²` : `De ${app.surface_min} à ${app.surface_max}m²`}</a></p>
+            <p><strong>Prix : </strong><a>${app.price_min === app.price_max ? `${app.price_min}€` : `De ${app.price_min} à ${app.price_max}€`}</a></p>
+            <p><strong>Equipements : </strong><a>${app.equipements.join(', ')}</a></p>
+            <p><strong>Lien : </strong><a href="${app.url}" target="_blank">${app.url}</a></p>
+            <hr><br><br>
 
-            ${apps.length !== 0 ? `
-                <h3>La liste complète</h3>
-                <br>
-                ${apps.map(item => `
-                    <p><strong>Nom : </strong><a>${item.name}</a></a></p>
-                    <p><strong>Adresse : </strong><a>${item.address}</a></p>
-                    <p><strong>Surface : </strong><a>${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</a></p>
-                    <p><strong>Prix : </strong><a>${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</a></p>
-                    <p><strong>Equipements : </strong><a>${item.equipements.join(', ')}</a></p>
-                    <p><strong>Lien : </strong><a href="${item.url}" target="_blank">${item.url}</a></p>
-                    <br><br>
-                `).join('')}
-                <hr>`
-            : ``}
+            <h3>Informations complémentaires :</h3>
+            <br>
+            <p>${infos}</p>
         `
     }, (err, info) => {
         if (err) {
@@ -66,4 +48,26 @@ const send_email = (total, apps, new_apps, last_len) => {
 
 
 
-module.exports = send_email;
+const send_failure_email = (err) => {
+    transporter.sendMail({
+        from: params.user,
+        to: params.user_email,
+        subject: `Update Appartements CROUS`,
+        html: `
+            <h1>Erreur de réservation CROUS</h1>
+            <br><br>
+            <p>Une erreur s'est produite lors de la réservation de l'appartement :</p>
+            <p>${err}</p>
+        `
+    }, (err, info) => {
+        if (err) {
+            console.log(`<${new Date().toUTCString()}> Error while sending mail => [${err}]\n`);
+        } else {
+            console.log(`<${new Date().toUTCString()}> Mail sent successfully\n`);
+        }
+    });
+}
+
+
+
+module.exports = { send_success_email, send_failure_email };

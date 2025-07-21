@@ -12,7 +12,7 @@ Voici ce que fait le bot en fonction de sa version :
 - `auto-mail` : Le bot vous enverra un mail avec tous les appartements disponibles selon votre secteur et vos critères dans un mail listant les appartements disponibles, leurs caractéristiques et le lien pour les consulter sur le site du CROUS. Dans cette version, une connexion est nécessaire au compte et il faudra alors récupérer son token d'authentification, mais tout vous sera expliqué si vous sélectionnez cette branche dans ce README
 - `auto-reservation` : Le bot réservera le premier appartement disponible selon votre secteur et vos critères, il enverra un mail vous disant s'il a réussi la réservation ou bien s'il a échoué ainsi que la raison de l'échec. Dans cette version, une connexion est nécessaire au compte et il faudra alors récupérer son token d'authentification, mais tout vous sera expliqué si vous sélectionnez cette branche dans ce README
 
-Nous sommes ici dans la version `auto-mail` du README.
+Nous sommes ici dans la version `auto-reservation` du README.
 
 ## 1ère Étape : Créer un mot de passe d'application à utiliser pour l'email
 
@@ -37,6 +37,11 @@ Pour pouvoir faire une réservation à votre nom, il faut récupérer votre toke
 Une fois connecté, récupérez votre token de connexion. Allez sur la page de logement CROUS, appuyez sur `F12` (ou faites clic droit n'importe où sur la page puis inspecter), puis dans `Application` ou `Stockage` (selon Chrome / Firefox), sélectionnez `cookies`, puis `https://trouverunlogement.lescrous.fr/`, et récupérez la valeur de `PHPSESSID` et de `qpid`. Allez dans le fichier `config.json` et mettez la valeur de `PHPSESSID` dans `php_sess_id` ligne 8 et le `qpid` dans `qpid` ligne 9, voir l'image ci-dessous :
 ![Récupération de token via l'onglet Application du navigateur](img/img1.jpg)
 
+Il faut en dernier récupérer l'id de votre panier. Cliquez sur mon dossier en haut à droite, appuyez sur `F12` (ou faites clic droit n'importe où sur la page puis inspecter), puis dans `Network` ou `Réseau` (selon Chrome / Firefox), filtrez par XHR pour ne voir que les requêtes spécifiques que nous cherchons et cherchez la requête nommée `cart`. Cliquez ensuite dessus et sélectionnez `Response` ou `Réponse` (selon Chrome / Firefox), récupérez l'id, qui correspond à votre id de panier, voir l'image ci-dessous :
+![Récupération de l'id du panier via l'onglet Newtork du navigateur](img/img2.jpg)
+
+Allez ensuite dans le fichier `config.json` et mettez la valeur récupérée précédemment dans `cart_id` ligne 10.
+
 ## 3ème Étape : Lancer l'application
 
 - Téléchargez nodejs (https://nodejs.org/fr)
@@ -51,26 +56,26 @@ L'application fonctionne directement, il suffit de la laisser tourner sur votre 
 Tout se passe dans le fichier `config.json` :
 
 - idTool - Ligne 2 : Cherchez un appartement pour votre ville et récupérez le numéro de l'url entre tools/ et /search, voir l'image ci-dessous :
-![Récupération de l'IdTool depuis l'url pendant une recherche](img/img2.jpg)
+![Récupération de l'IdTool depuis l'url pendant une recherche](img/img3.jpg)
 
-- Localisation - Lignes 14 à 17 : Ici sont les coordonnées de la ville recherchée. Il suffit de les remplacer par les vôtres. Allez sur le site du CROUS, faites une recherche d'appartement dans votre ville et regardez les chiffres en paramètres de l'url, voir l'image ci-dessous :
-![Récupération des coordonnées de la ville pendant une recherche](img/img3.jpg)
+- Localisation - Lignes 15 à 18 : Ici sont les coordonnées de la ville recherchée. Il suffit de les remplacer par les vôtres. Allez sur le site du CROUS, faites une recherche d'appartement dans votre ville et regardez les chiffres en paramètres de l'url, voir l'image ci-dessous :
+![Récupération des coordonnées de la ville pendant une recherche](img/img4.jpg)
 
-- Prix maximum - Ligne 18 : Mettez le prix maximum souhaité avec le chiffre sans virgule, soit 5 chiffres. Par exemple si vous voulez maximum 250€ mettez 25000, car ce sera interprété comme 250.00. Par défaut la valeur est 10000000 afin d'avoir le maximum de propositions possible
+- Prix maximum - Ligne 19 : Mettez le prix maximum souhaité avec le chiffre sans virgule, soit 5 chiffres. Par exemple si vous voulez maximum 250€ mettez 25000, car ce sera interprété comme 250.00. Par défaut la valeur est 10000000 afin d'avoir le maximum de propositions possible
 
-- Surface minimum - Ligne 19 : Mettez ce que vous voulez. Par exemple si vous voulez 9m² minimum, mettez 9. Si vous voulez 18m² minimum, mettez 18. Par défaut la valeur est 0 pour la même raison que pour le prix maximum
+- Surface minimum - Ligne 20 : Mettez ce que vous voulez. Par exemple si vous voulez 9m² minimum, mettez 9. Si vous voulez 18m² minimum, mettez 18. Par défaut la valeur est 0 pour la même raison que pour le prix maximum
 
-- Type d'occupation - Ligne 20 : Ceci est un choix multiple entre Seul (`alone`), Couple (`couple`) et Colocation (`house_sharing`). Si vous souhaitez Seul mettez : ["alone"], si vous souhaitez seul ou colocation mettez : ["alone", "house_sharing"]. Si vous souhaitez les trois : ["alone", "couple", "house_sharing"]. Par défaut seul est sélectionné
+- Type d'occupation - Ligne 21 : Ceci est un choix multiple entre Seul (`alone`), Couple (`couple`) et Colocation (`house_sharing`). Si vous souhaitez Seul mettez : ["alone"], si vous souhaitez seul ou colocation mettez : ["alone", "house_sharing"]. Si vous souhaitez les trois : ["alone", "couple", "house_sharing"]. Par défaut seul est sélectionné
 
-- Équipements - Ligne 21 : Choix multiple avec les équipements entre `WC`, `Douche`, `Frigo`, `Evier + plaque` et `Balcon`. Si vous voulez des toilettes, douche et frigo mettez : ["WC", "Douche", "Frigo"]. Si vous voulez cela et une cuisine alors : ["WC", "Douche", "Frigo", "Evier + plaque"]
+- Équipements - Ligne 22 : Choix multiple avec les équipements entre `WC`, `Douche`, `Frigo`, `Evier + plaque` et `Balcon`. Si vous voulez des toilettes, douche et frigo mettez : ["WC", "Douche", "Frigo"]. Si vous voulez cela et une cuisine alors : ["WC", "Douche", "Frigo", "Evier + plaque"]
 
-- Noms - Ligne 22 : Vous pouvez mettre des noms de résidences sous forme de liste (en minuscules), par exemple : ["maison des etudiants", "bazeilles"]. Si vous ne mettez rien il n'y aura aucun filtre et tout sera sélectionné peu importe le nom de la résidence
+- Noms - Ligne 23 : Vous pouvez mettre des noms de résidences sous forme de liste (en minuscules), par exemple : ["maison des etudiants", "bazeilles"]. Si vous ne mettez rien il n'y aura aucun filtre et tout sera sélectionné peu importe le nom de la résidence
 
 Une fois l'application relancée, tous les filtres seront appliqués et le premier appartement trouvé répondant à vos critères sera automatiquement réservé.
 
 ## Autres informations bonus
 
-- Délai - Lignes 26 & 27 : `delaie` est le délai fixe minimum entre les requêtes et `delaie_supp` un délai en plus aléatoire entre 0 et la valeur choisie. Par exemple avec le choix de base ce sera 5 + 5, soit 5 secondes minimum + un délai aléatoire entre 0 et 5 secondes. Vous pouvez le modifier si vous voulez
+- Délai - Lignes 27 & 28 : `delaie` est le délai fixe minimum entre les requêtes et `delaie_supp` un délai en plus aléatoire entre 0 et la valeur choisie. Par exemple avec le choix de base ce sera 5 + 5, soit 5 secondes minimum + un délai aléatoire entre 0 et 5 secondes. Vous pouvez le modifier si vous voulez
 
 - Si jamais le bot ne fonctionne pas vérifiez bien que vous avez mis les bons paramètres et pensez à tester sur des zones avec des appartements déjà disponibles
 
