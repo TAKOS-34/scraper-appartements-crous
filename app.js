@@ -65,6 +65,9 @@ const scraper = async (idTool, localisation, max_price, min_surface, equipments,
                 return;
             }
 
+            const _data = await _res.json();
+            const reservation_id = _data.items[0].id;
+
             const __res = await fetch(`https://trouverunlogement.lescrous.fr/api/fr/tools/${idTool}/requests`, {
                 method: 'POST',
                 headers: {
@@ -79,12 +82,21 @@ const scraper = async (idTool, localisation, max_price, min_surface, equipments,
 
             const __data = await __res.text();
 
-            if (__res.status !== 200 || !__res.headers.get('content-type').includes('application/json')) {
+            if (__res.status === 400 && __data.includes("Une demande est d\\u00e9j\\u00e0 d\\u00e9pos\\u00e9e dans ce CROUS")) {
+                const ___res = await fetch(`https://trouverunlogement.lescrous.fr/api/fr/tools/${idTool}/carts/${params.cart_id}/items/${reservation_id}`, {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Cookie': `PHPSESSID=${params.php_sess_id}; qpid=${params.qpid}; tool.${idTool}.hasUserReadRules=true`
+                    }
+                });
+                console.log(`<${new Date().toUTCString()}> Error (reservation already exists) => [${___res.status} | ${___res.statusText}]\n`);
+            } else if (__res.status !== 200 || !__res.headers.get('content-type').includes('application/json')) {
                 send_failure_email(__data);
                 console.log(`<${new Date().toUTCString()}> Error (reservation failed) => [${__res.status} | ${__res.statusText} | ${__data}]\n`);
             } else {
                 send_success_email(app, __data);
-                console.log(`<${new Date().toUTCString()}> Successfully reserved apartment: ${app.name}\n`);
+                console.log(`<${new Date().toUTCString()}> Successfully reserved apartment : ${app.name}\n`);
             }
         } else {
             console.log(`<${new Date().toUTCString()}> No apartments found\n`);
