@@ -1,6 +1,6 @@
 # TUTO - UTILISATION D'UN BOT SCRAPER POUR TROUVER UN APPARTEMENT CROUS
 
-Le but du projet est de vous aider à obtenir un appartement CROUS, ce qui peut être assez dur si vous avez un échelon assez bas, voire si vous n'êtes même pas boursier. Un bot pourra donc, en fonction de vos préférences, vous envoyer par mail une liste d'appartements disponibles selon votre secteur et vos critères, voire il pourra même réserver à votre place, même si la procédure est légèrement plus lourde. Tout a été fait pour que même ceux qui n'y connaissent rien puissent y arriver. Il va falloir ouvrir un terminal, donc ça peut faire peur, mais il n'y a rien de compliqué.
+Le but du projet est de vous aider à obtenir un appartement CROUS, ce qui peut être assez dur si vous avez un échelon assez bas, voire si vous n'êtes même pas boursier. Un bot vous enverra par mail une liste d'appartements disponibles selon votre secteur et vos critères, voire il pourra même réserver à votre place, même si la procédure est légèrement plus lourde. Tout a été fait pour que même ceux qui n'y connaissent rien puissent y arriver. Si jamais vous n'arrivez pas à certaines étapes, demandez à une IA, c'est un outil parfait pour vous aider, envoyez-lui ce texte et les fichiers concernés et elle pourra vous détailler encore mieux les différentes étapes.
 
 ## Avant toute chose
 
@@ -14,9 +14,13 @@ Voici ce que fait le bot en fonction de sa version :
 
 Nous sommes ici dans la version `auto-mail` du README.
 
+Une fois votre version sélectionnée, vous pouvez télécharger le code à l'aide du bouton Code en bleu sur Github, voir l'image ci-dessous :
+![Téléchargement du code](img/img1.jpg)
+Vous pouvez télécharger en ZIP ou bien en HTTPS voire même en SSH cela ne change pas grand-chose.
+
 ## 1ère Étape : Créer un mot de passe d'application à utiliser pour l'email
 
-On utilisera Google, donc vous pouvez utiliser votre compte ou en créer un nouveau. Vous pouvez utiliser un autre service mais il faudra ajuster le code selon vos besoins (dans le fichier `mail.js`, qui se trouve dans le dossier `config`).
+Nous allons devoir créer un mot de passe d'application pour que le bot nous envoie des mails. On utilisera Google, donc vous pouvez utiliser votre compte ou en créer un nouveau. Vous pouvez utiliser un autre service mais il faudra ajuster le code selon vos besoins (dans le fichier `mail.js`, qui se trouve dans le dossier `config`).
 
 - Allez sur les paramètres de votre compte Google
 - Cherchez dans la barre de recherche : Mots de passe des applications
@@ -32,19 +36,19 @@ Ensuite on peut aller dans le fichier `config.json` :
 
 ## 2ème Étape : Récupérer son token de connexion
 
-Pour pouvoir faire une réservation à votre nom, il faut récupérer votre token de connexion. La manière la plus simple de le garder actif est un peu rudimentaire mais elle fonctionne. Il faudra d'une quelconque manière vous connecter sur le site de logement CROUS et faire en sorte de rafraîchir la page toutes les 30 secondes. Vous pouvez faire cela via une extension (https://autorefresh.io/) ou par d'autres moyens qui vous semblent appropriés. Ceci est indispensable car sinon votre session se coupera et le token que l'on va récupérer juste après deviendra inutilisable.
+Cette version du bot est comme le `main` mais il faut récupérer votre token de connexion (plus d'appartement disponible). Le problème c'est qu'il faut trouver une manière de le garder actif car il se supprime au bout d'un certain temps d'inactivité. La manière la plus simple de le garder actif est un peu rudimentaire mais elle fonctionne. Il faudra d'une quelconque manière vous connecter sur le site des logements CROUS et faire en sorte de rafraîchir la page toutes les 30 secondes tout en la gardant active (onglet de votre navigateur ouvert). Vous pouvez faire cela via une extension (https://autorefresh.io/) ou par d'autres moyens qui vous semblent appropriés. L'extension Autorefresh que je vous ai conseillée est bien car on n'a pas besoin de rester sur l'onglet pour qu'il se rafraîchisse, il suffit simplement de ne pas fermer l'onglet.
 
-Une fois connecté, récupérez votre token de connexion. Allez sur la page de logement CROUS, appuyez sur `F12` (ou faites clic droit n'importe où sur la page puis inspecter), puis dans `Application` ou `Stockage` (selon Chrome / Firefox), sélectionnez `cookies`, puis `https://trouverunlogement.lescrous.fr/`, et récupérez la valeur de `PHPSESSID` et de `qpid`. Allez dans le fichier `config.json` et mettez la valeur de `PHPSESSID` dans `php_sess_id` ligne 8 et le `qpid` dans `qpid` ligne 9, voir l'image ci-dessous :
-![Récupération de token via l'onglet Application du navigateur](img/img1.jpg)
+Une fois connecté, récupérez votre token de connexion. Allez sur la page des logements CROUS, appuyez sur `F12` (ou faites clic droit n'importe où sur la page puis inspecter), puis dans `Application` ou `Stockage` (selon Chrome / Firefox), sélectionnez `cookies`, puis `https://trouverunlogement.lescrous.fr/`, et récupérez la valeur de `PHPSESSID` et de `qpid`. Allez dans le fichier `config.json` et mettez la valeur de `PHPSESSID` dans `php_sess_id` ligne 8 et le `qpid` dans `qpid` ligne 9, voir l'image ci-dessous :
+![Récupération de token via l'onglet Application du navigateur](img/img2.jpg)
 
 ## 3ème Étape : Lancer l'application
 
-- Téléchargez nodejs (https://nodejs.org/fr)
+- Téléchargez Node.js (https://nodejs.org/fr)
 - Lancez un terminal (je vous laisse regarder comment faire sur internet / demander à une IA) dans le dossier du projet et faites les commandes suivantes :
 - `npm i` (Installer les dépendances)
 - `npm start` (Lancer l'application)
 
-L'application fonctionne directement, il suffit de la laisser tourner sur votre ordinateur autant de temps que vous le souhaitez et vous recevrez un mail en fonction des paramètres mis. Le premier appartement disponible sera réservé et vous recevrez un email vous informant de sa réservation ou d'un éventuel problème.
+L'application fonctionne directement, il suffit de la laisser tourner sur votre ordinateur autant de temps que vous le souhaitez et vous recevrez un mail en fonction des paramètres mis.
 
 ## 4ème Étape : Les paramètres (localisation, prix, surface, ...)
 
