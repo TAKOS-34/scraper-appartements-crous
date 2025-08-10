@@ -20,20 +20,20 @@ const send_success_email = (app, infos) => {
         to: params.user_email,
         subject: `Update Appartements CROUS`,
         html: `
-            <h1>Nouvelle appartement réservé CROUS</h1>
+            <h1>🎉 Nouvelle appartement réservé CROUS</h1>
             <br><br>
 
-            <h3>Caractéristiques :</h3>
+            <h3>🔎 Caractéristiques :</h3>
             <br>
-            <p><strong>Nom : </strong><a>${app.name} <a style="color: red;">(NOUVEAU)</a></a></p>
-            <p><strong>Adresse : </strong><a>${app.address}</a></p>
-            <p><strong>Surface : </strong><a>${app.surface_min === app.surface_max ? `${app.surface_min}m²` : `De ${app.surface_min} à ${app.surface_max}m²`}</a></p>
-            <p><strong>Prix : </strong><a>${app.price_min === app.price_max ? `${app.price_min}€` : `De ${app.price_min} à ${app.price_max}€`}</a></p>
-            <p><strong>Equipements : </strong><a>${app.equipements.join(', ')}</a></p>
-            <p><strong>Lien : </strong><a href="${app.url}" target="_blank">${app.url}</a></p>
+            <p>🏠 <b>Nom :</b> ${app.name}</p>
+            <p>📍 <b>Adresse :</b> ${app.address}</p>
+            <p>📐 <b>Surface :</b> ${app.surface_min === app.surface_max ? `${app.surface_min}m²` : `De ${app.surface_min} à ${app.surface_max}m²`}</p>
+            <p>💶 <b>Prix :</b> ${app.price_min === app.price_max ? `${app.price_min}€` : `De ${app.price_min} à ${app.price_max}€`}</p>
+            <p>🛏️ <b>Équipements :</b> ${app.equipements.join(', ')}</p>
+            <p>🔗 <b>Lien :</b> <a href="${app.url}" target="_blank">${app.url}</a></p>
             <hr><br><br>
 
-            <h3>Informations complémentaires :</h3>
+            <h3>ℹ️ Informations complémentaires :</h3>
             <br>
             <p>${infos}</p>
         `
