@@ -1,6 +1,6 @@
 # TUTO - UTILISATION D'UN BOT SCRAPER POUR TROUVER UN APPARTEMENT CROUS
 
-Le but du projet est de vous aider à obtenir un appartement CROUS, ce qui peut être assez dur si vous avez un échelon assez bas, voire si vous n'êtes même pas boursier. Un bot pourra donc, en fonction de vos préférences, vous envoyer par mail une liste d'appartements disponibles selon votre secteur et vos critères, voire il pourra même réserver à votre place, même si la procédure est légèrement plus lourde. Tout a été fait pour que même ceux qui n'y connaissent rien puissent y arriver. Il va falloir ouvrir un terminal, donc ça peut faire peur, mais il n'y a rien de compliqué.
+Le but du projet est de vous aider à obtenir un appartement CROUS, ce qui peut être assez dur si vous avez un échelon assez bas, voire si vous n'êtes même pas boursier. Un bot vous enverra par mail une liste d'appartements disponibles selon votre secteur et vos critères, voire il pourra même réserver à votre place, même si la procédure est légèrement plus lourde. Tout a été fait pour que même ceux qui n'y connaissent rien puissent y arriver. Si jamais vous n'arrivez pas à certaines étapes, demandez à une IA, c'est un outil parfait pour vous aider, envoyez-lui ce texte et les fichiers concernés et elle pourra vous détailler encore mieux les différentes étapes.
 
 ## Avant toute chose
 
@@ -12,11 +12,15 @@ Voici ce que fait le bot en fonction de sa version :
 - `auto-mail` : Le bot vous enverra un mail avec tous les appartements disponibles selon votre secteur et vos critères dans un mail listant les appartements disponibles, leurs caractéristiques et le lien pour les consulter sur le site du CROUS. Dans cette version, une connexion est nécessaire au compte et il faudra alors récupérer son token d'authentification, mais tout vous sera expliqué si vous sélectionnez cette branche dans ce README
 - `auto-reservation` : Le bot réservera le premier appartement disponible selon votre secteur et vos critères, il enverra un mail vous disant s'il a réussi la réservation ou bien s'il a échoué ainsi que la raison de l'échec. Dans cette version, une connexion est nécessaire au compte et il faudra alors récupérer son token d'authentification, mais tout vous sera expliqué si vous sélectionnez cette branche dans ce README
 
-Nous sommes ici dans la version `mail` du README.
+Nous sommes ici dans la version `main` du README.
+
+Une fois votre version sélectionnée, vous pouvez télécharger le code à l'aide du bouton Code en bleu sur Github, voir l'image ci-dessous :
+![Téléchargement du code](img/img1.jpg)
+Vous pouvez télécharger en ZIP ou bien en HTTPS voire même en SSH cela ne change pas grand-chose.
 
 ## 1ère Étape : Créer un mot de passe d'application à utiliser pour l'email
 
-On utilisera Google, donc vous pouvez utiliser votre compte ou en créer un nouveau. Vous pouvez utiliser un autre service mais il faudra ajuster le code selon vos besoins (dans le fichier `mail.js`, qui se trouve dans le dossier `config`).
+Nous allons devoir créer un mot de passe d'application pour que le bot nous envoie des mails. On utilisera Google, donc vous pouvez utiliser votre compte ou en créer un nouveau. Vous pouvez utiliser un autre service mais il faudra ajuster le code selon vos besoins (dans le fichier `mail.js`, qui se trouve dans le dossier `config`).
 
 - Aller sur les paramètres de votre compte Google
 - Chercher dans la barre de recherche : Mots de passe des applications
@@ -32,7 +36,7 @@ Ensuite on peut aller dans le fichier `config.json` :
 
 ## 2ème Étape : Lancer l'application
 
-- Télécharger nodejs (https://nodejs.org/fr)
+- Télécharger Node.js (https://nodejs.org/fr)
 - Lancer un terminal (je vous laisse regarder comment faire sur internet / demander à une IA) dans le dossier du projet et faites les commandes suivantes :
 - `npm i` (Installer les dépendances)
 - `npm start` (Lancer l'application)
@@ -44,10 +48,10 @@ L'application fonctionne directement, il suffit de la laisser tourner sur votre 
 Tout se passe dans le fichier `config.json` :
 
 - idTool - Ligne 2 : Chercher un appartement pour votre ville et récupérer le numéro de l'url entre tools/ et /search, voir l'image ci-dessous :
-![Récupération de l'IdTool depuis l'url pendant une recherche](img/img1.jpg)
+![Récupération de l'IdTool depuis l'url pendant une recherche](img/img2.jpg)
 
 - Localisation - Ligne 12 à 15 : Ici sont les coordonnées de la ville recherchée. Il suffit de les remplacer par les vôtres. Allez sur le site du CROUS, faites une recherche d'appartement dans votre ville et regardez les chiffres en paramètres de l'url, voir l'image ci-dessous :
-![Récupération des coordonnées de la ville pendant une recherche](img/img2.jpg)
+![Récupération des coordonnées de la ville pendant une recherche](img/img3.jpg)
 
 - Prix maximum - Ligne 16 : Mettez le prix maximum souhaité avec le chiffre sans virgule, soit 5 chiffres. Par exemple si vous voulez maximum 250€ mettez 25000, car ce sera interprété comme 250.00. Par défaut la valeur est 10000000 afin d'avoir le maximum de propositions possible
 

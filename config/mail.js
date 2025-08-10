@@ -22,19 +22,19 @@ const send_email = (total, apps, new_apps, last_len) => {
         subject: `Update Appartements CROUS`,
         html: `
             <h1>Update Appartements CROUS</h1>
-            ${total === 0 ? `<p>Plus d'appartements disponible</p>` : `<p>${Math.abs(total - last_len)} ${total - last_len > 0 ? `Nouveau(x) appartement(s)` : `Appartement(s) en moins`} (maintenant : ${total}, anciennement : ${last_len})</p>`}
+            ${total === 0 ? `<p>🚫 Plus d'appartements disponible</p>` : `<p>${Math.abs(total - last_len)} ${total - last_len > 0 ? `🎉 Nouveau(x) appartement(s)` : `❌ Appartement(s) en moins`} (maintenant : ${total}, anciennement : ${last_len})</p>`}
             <br><hr><br>
 
             ${new_apps.length !== 0 ? `
-                <h3>Les nouveaux :</h3>
+                <h3>🆕 Les nouveaux :</h3>
                 <br>
                 ${new_apps.map(item => `
-                    <p><strong>Nom : </strong><a>${item.name} <a style="color: red;">(NOUVEAU)</a></a></p>
-                    <p><strong>Adresse : </strong><a>${item.address}</a></p>
-                    <p><strong>Surface : </strong><a>${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</a></p>
-                    <p><strong>Prix : </strong><a>${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</a></p>
-                    <p><strong>Equipements : </strong><a>${item.equipements.join(', ')}</a></p>
-                    <p><strong>Lien : </strong><a href="${item.url}" target="_blank">${item.url}</a></p>
+                    <p>🏠 <b>Nom :</b> ${item.name} <a style="color: red;">(NOUVEAU)</a></p>
+                    <p>📍 <b>Adresse :</b> ${item.address}</p>
+                    <p>📐 <b>Surface :</b> ${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</p>
+                    <p>💶 <b>Prix :</b> ${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</p>
+                    <p>🛏️ <b>Equipements :</b> ${item.equipements.join(', ')}</p>
+                    <p>🔗 <b>Lien :</b> <a href="${item.url}" target="_blank">${item.url}</a></p>
                     <br><br>
                 `).join('')}
                 <br><hr><br></br>`
@@ -44,12 +44,12 @@ const send_email = (total, apps, new_apps, last_len) => {
                 <h3>La liste complète</h3>
                 <br>
                 ${apps.map(item => `
-                    <p><strong>Nom : </strong><a>${item.name}</a></a></p>
-                    <p><strong>Adresse : </strong><a>${item.address}</a></p>
-                    <p><strong>Surface : </strong><a>${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</a></p>
-                    <p><strong>Prix : </strong><a>${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</a></p>
-                    <p><strong>Equipements : </strong><a>${item.equipements.join(', ')}</a></p>
-                    <p><strong>Lien : </strong><a href="${item.url}" target="_blank">${item.url}</a></p>
+                    <p>🏠 <b>Nom :</b> ${item.name}</p>
+                    <p>📍 <b>Adresse :</b> ${item.address}</p>
+                    <p>📐 <b>Surface :</b> ${item.surface_min === item.surface_max ? `${item.surface_min}m²` : `De ${item.surface_min} à ${item.surface_max}m²`}</p>
+                    <p>💶 <b>Prix :</b> ${item.price_min === item.price_max ? `${item.price_min}€` : `De ${item.price_min} à ${item.price_max}€`}</p>
+                    <p>🛏️ <b>Equipements :</b> ${item.equipements.join(', ')}</p>
+                    <p>🔗 <b>Lien :</b> <a href="${item.url}" target="_blank">${item.url}</a></p>
                     <br><br>
                 `).join('')}
                 <hr>`
